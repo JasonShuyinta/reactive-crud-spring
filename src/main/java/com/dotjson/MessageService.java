@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+
 @Service
 public class MessageService {
 
@@ -23,6 +25,10 @@ public class MessageService {
 
     public Mono<MessageOutput> saveMessage(Mono<MessageInput> messageInputMono) {
         return messageInputMono.map(messageMapper::inputToEntity)
+                .map(m -> {
+                    m.setTime(LocalDateTime.now());
+                    return m;
+                })
                 .flatMap(messageRepository::insert)
                 .map(messageMapper::entityToOutput);
     }

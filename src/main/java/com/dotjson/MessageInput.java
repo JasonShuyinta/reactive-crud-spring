@@ -11,6 +11,5 @@ public class MessageInput {
 
     private String id;
     private String text;
-    private String time;
 
 }
